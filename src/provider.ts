@@ -42,6 +42,14 @@ export interface GetLsatRes {
   preimage: string;
   paths: string;
   status: string;
+  success: boolean;
+}
+export interface UpdateLsatRes {
+  success: boolean;
+}
+export interface UpdateLsatArgs {
+  identifier: string;
+  status: string;
 }
 export interface SendLsatRes {
   success: boolean;

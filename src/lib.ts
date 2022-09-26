@@ -17,6 +17,8 @@ import {
   SaveDataArgs,
   SaveDataRes,
   GetLsatRes,
+  UpdateLsatArgs,
+  UpdateLsatRes,
 } from "./provider";
 import { postMessage, addEventer, removeEventer } from "./postMessage";
 // @ts-ignore
@@ -189,6 +191,21 @@ export default class Sphinx implements SphinxProvider {
     if (!this.isEnabled) return null;
     try {
       const r = await this.postMsg<GetLsatRes>(MSG_TYPE.GETLSAT);
+      return r;
+    } catch (e) {
+      if (this.logging) console.log(e);
+      return e;
+    }
+  }
+
+  async updateLsat(identifier: string, status: string) {
+    if (this.logging) console.log("=> GET LSAT");
+    if (!this.isEnabled) return null;
+    try {
+      const r = await this.postMsg<UpdateLsatRes, UpdateLsatArgs>(
+        MSG_TYPE.UPDATELSAT,
+        { identifier, status }
+      );
       return r;
     } catch (e) {
       if (this.logging) console.log(e);
