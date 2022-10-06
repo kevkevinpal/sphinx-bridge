@@ -1,4 +1,4 @@
-import { SphinxProvider, EnableRes, KeysendRes, SendPaymentRes, InvoiceRes, SignMessageRes, AuthorizeRes, SaveDataArgs, SaveDataRes } from "./provider";
+import { SphinxProvider, EnableRes, KeysendRes, SendPaymentRes, InvoiceRes, SignMessageRes, AuthorizeRes, SaveDataArgs, SaveDataRes, SettleTaggerArgs, SettleTaggerRes } from "./provider";
 export declare enum MSG_TYPE {
     AUTHORIZE = "AUTHORIZE",
     INFO = "INFO",
@@ -15,7 +15,8 @@ export declare enum MSG_TYPE {
     LSAT = "LSAT",
     SAVEDATA = "SAVEDATA",
     GETLSAT = "GETLSAT",
-    UPDATELSAT = "UPDATELSAT"
+    UPDATELSAT = "UPDATELSAT",
+    SETTLETAGGER = "SETTLETAGGER"
 }
 export default class Sphinx implements SphinxProvider {
     private isEnabled;
@@ -41,5 +42,6 @@ export default class Sphinx implements SphinxProvider {
     verifyMessage(signature: string, message: string): Promise<boolean | null>;
     reload(password: string): Promise<EnableRes | null>;
     saveGraphData(data: SaveDataArgs): Promise<SaveDataRes | null>;
+    settleTagger(data: SettleTaggerArgs): Promise<SettleTaggerRes | null>;
     private postMsg;
 }

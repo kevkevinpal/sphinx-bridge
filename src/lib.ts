@@ -19,6 +19,8 @@ import {
   GetLsatRes,
   UpdateLsatArgs,
   UpdateLsatRes,
+  SettleTaggerArgs,
+  SettleTaggerRes,
 } from "./provider";
 import { postMessage, addEventer, removeEventer } from "./postMessage";
 // @ts-ignore
@@ -43,6 +45,7 @@ export enum MSG_TYPE {
   SAVEDATA = "SAVEDATA",
   GETLSAT = "GETLSAT",
   UPDATELSAT = "UPDATELSAT",
+  SETTLETAGGER = "SETTLETAGGER",
 }
 
 const APP_NAME = "Sphinx";
@@ -290,6 +293,30 @@ export default class Sphinx implements SphinxProvider {
       return r;
     } catch (error) {
       if (this.logging) console.log(error);
+      return null;
+    }
+  }
+
+  async settleTagger(data: SettleTaggerArgs) {
+    if (this.logging) console.log("=> Settle Taggers");
+    if (!this.isEnabled) return null;
+    if (!data.pubkey || !data.amount) return null;
+    if (data.pubkey.length !== 66) return null;
+    if (data.amount < 1) return null;
+    if (data.amount > this.budget) return null;
+    try {
+      const args: SettleTaggerArgs = { ...data };
+      const r = await this.postMsg<SettleTaggerRes, { data: SettleTaggerArgs }>(
+        MSG_TYPE.SETTLETAGGER,
+        { data: { ...args } }
+      );
+      if (r && r.success) {
+        this.budget = this.budget - data.amount;
+        r.budget = this.budget;
+      }
+      return r;
+    } catch (e) {
+      if (this.logging) console.log(e);
       return null;
     }
   }

@@ -79,6 +79,18 @@ export interface SaveDataRes {
   success: boolean;
 }
 
+export interface SettleTaggerArgs {
+  pubkey: string;
+  amount: number;
+  type: string;
+  timestamp?: string;
+  ref_id: string;
+}
+export interface SettleTaggerRes {
+  success: boolean;
+  budget: number;
+}
+
 export interface SphinxProvider {
   enable(): Promise<EnableRes | null>;
 
@@ -101,4 +113,6 @@ export interface SphinxProvider {
   reload(password: string): Promise<EnableRes | null>;
 
   saveGraphData(data: SaveDataArgs): Promise<SaveDataRes | null>;
+
+  settleTagger(data: SettleTaggerArgs): Promise<SettleTaggerRes | null>;
 }

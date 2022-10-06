@@ -68,6 +68,7 @@ var MSG_TYPE;
     MSG_TYPE["SAVEDATA"] = "SAVEDATA";
     MSG_TYPE["GETLSAT"] = "GETLSAT";
     MSG_TYPE["UPDATELSAT"] = "UPDATELSAT";
+    MSG_TYPE["SETTLETAGGER"] = "SETTLETAGGER";
 })(MSG_TYPE = exports.MSG_TYPE || (exports.MSG_TYPE = {}));
 var APP_NAME = "Sphinx";
 var Sphinx = /** @class */ (function () {
@@ -509,6 +510,46 @@ var Sphinx = /** @class */ (function () {
                         error_1 = _a.sent();
                         if (this.logging)
                             console.log(error_1);
+                        return [2 /*return*/, null];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Sphinx.prototype.settleTagger = function (data) {
+        return __awaiter(this, void 0, void 0, function () {
+            var args, r, e_14;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (this.logging)
+                            console.log("=> Settle Taggers");
+                        if (!this.isEnabled)
+                            return [2 /*return*/, null];
+                        if (!data.pubkey || !data.amount)
+                            return [2 /*return*/, null];
+                        if (data.pubkey.length !== 66)
+                            return [2 /*return*/, null];
+                        if (data.amount < 1)
+                            return [2 /*return*/, null];
+                        if (data.amount > this.budget)
+                            return [2 /*return*/, null];
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        args = __assign({}, data);
+                        return [4 /*yield*/, this.postMsg(MSG_TYPE.SETTLETAGGER, { data: __assign({}, args) })];
+                    case 2:
+                        r = _a.sent();
+                        if (r && r.success) {
+                            this.budget = this.budget - data.amount;
+                            r.budget = this.budget;
+                        }
+                        return [2 /*return*/, r];
+                    case 3:
+                        e_14 = _a.sent();
+                        if (this.logging)
+                            console.log(e_14);
                         return [2 /*return*/, null];
                     case 4: return [2 /*return*/];
                 }
