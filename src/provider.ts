@@ -71,7 +71,7 @@ export interface ReloadArgs {
 }
 
 export interface SaveDataArgs {
-  type: string;
+  type: number;
   metaData: any;
 }
 
