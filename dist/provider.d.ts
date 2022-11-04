@@ -29,6 +29,32 @@ export interface InvoiceArgs {
 export interface InvoiceRes {
     paymentRequest: string;
 }
+export interface LsatRes {
+    paymentRequest: string;
+    macaroon: string;
+    issuer: string;
+}
+export interface GetLsatRes {
+    paymentRequest: string;
+    macaroon: string;
+    issuer: string;
+    identifier: string;
+    preimage: string;
+    paths: string;
+    status: string;
+    success: boolean;
+}
+export interface UpdateLsatRes {
+    success: boolean;
+}
+export interface UpdateLsatArgs {
+    identifier: string;
+    status: string;
+}
+export interface SendLsatRes {
+    success: boolean;
+    budget: number;
+}
 export interface SignMessageArgs {
     message: string;
 }
@@ -42,6 +68,13 @@ export interface VerifyMessageArgs {
 export interface ReloadArgs {
     password: string;
 }
+export interface SaveDataArgs {
+    type: string;
+    metaData: any;
+}
+export interface SaveDataRes {
+    success: boolean;
+}
 export interface SphinxProvider {
     enable(): Promise<EnableRes | null>;
     topup(): Promise<EnableRes | null>;
@@ -53,4 +86,5 @@ export interface SphinxProvider {
     signMessage(message: string): Promise<SignMessageRes | null>;
     verifyMessage(signature: string, message: string): Promise<boolean | null>;
     reload(password: string): Promise<EnableRes | null>;
+    saveGraphData(data: SaveDataArgs): Promise<SaveDataRes | null>;
 }
