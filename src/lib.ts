@@ -199,7 +199,7 @@ export default class Sphinx implements SphinxProvider {
   }
 
   async updateLsat(identifier: string, status: string) {
-    if (this.logging) console.log("=> GET LSAT");
+    if (this.logging) console.log("=> UPDATE LSAT");
     if (!this.isEnabled) return null;
     try {
       const r = await this.postMsg<UpdateLsatRes, UpdateLsatArgs>(

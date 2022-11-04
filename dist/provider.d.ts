@@ -69,7 +69,7 @@ export interface ReloadArgs {
     password: string;
 }
 export interface SaveDataArgs {
-    type: string;
+    type: number;
     metaData: any;
 }
 export interface SaveDataRes {
